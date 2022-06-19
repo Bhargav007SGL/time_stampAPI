@@ -23,7 +23,7 @@ app.get("/", function (req, res) {
 app.get("/api/:date", function (req, res) {
   var tempDate = req.params.date;
   var createObj = {};
-  if (tempDate.indexOf(`-`) != -1) {
+  if (tempDate.indexOf(`-`) != -1 || tempDate.includes('GMT')) {
     var UTCDate = new Date(tempDate);
     createObj["unix"] = UTCDate.getTime();
     createObj["utc"] = UTCDate.toUTCString();

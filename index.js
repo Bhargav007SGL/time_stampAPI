@@ -28,18 +28,18 @@ app.get("/api/:date", function (req, res) {
     createObj["unix"] = UTCDate.getTime();
     createObj["utc"] = UTCDate.toUTCString();
     if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
-      res.send({ error: "Invalid Date" })
+      return res.send({ error: "Invalid Date" })
     }
-    res.send(createObj);
+    return res.send(createObj);
   }
   createObj["unix"] = tempDate;
   var UTCDate = new Date(parseInt(tempDate));
   if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
-    res.send({ error: "Invalid Date" })
+    return res.send({ error: "Invalid Date" })
   }
   UTCDate = UTCDate.toUTCString();
   createObj["utc"] = UTCDate;
-  res.send(createObj);
+  return res.send(createObj);
 });
 
 app.get("/api", function (req, res) {
@@ -47,7 +47,7 @@ app.get("/api", function (req, res) {
   var currentDate = new Date();
   currentObject["unix"] = currentDate.getTime();
   currentObject["utc"] = currentDate.toUTCString();
-  res.send(currentObject);
+  return res.send(currentObject);
 });
 // listen for requests :)
 var listener = app.listen(3000, function () {

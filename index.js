@@ -32,23 +32,45 @@ app.get("/api", function (req, res) {
 app.get("/api/:date", function (req, res) {
   var tempDate = req.params.date;
   var createObj = {};
-  if (tempDate.indexOf(`-`) != -1) {
+  if (tempDate.indexOf(`-`) != -1 || tempDate.includes('GMT')) {
     var UTCDate = new Date(tempDate);
     createObj["unix"] = UTCDate.getTime();
     createObj["utc"] = UTCDate.toUTCString();
     if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
+<<<<<<< HEAD
      return res.json({ error: "Invalid Date" })
     }
    return res.json(createObj);
+=======
+      return res.send({ error: "Invalid Date" })
+    }
+    return res.send(createObj);
+>>>>>>> 92cc622a012fb0b777c40f646f55ec2e0a7921c6
   }
   createObj["unix"] = parseInt(tempDate);
   var UTCDate = new Date(parseInt(tempDate));
   if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
+<<<<<<< HEAD
    return res.json({ error: "Invalid Date" })
   }
   UTCDate = UTCDate.toUTCString();
   createObj["utc"] = UTCDate;
  return res.json(createObj);
+=======
+    return res.send({ error: "Invalid Date" })
+  }
+  UTCDate = UTCDate.toUTCString();
+  createObj["utc"] = UTCDate;
+  return res.send(createObj);
+});
+
+app.get("/api", function (req, res) {
+  var currentObject = {};
+  var currentDate = new Date();
+  currentObject["unix"] = currentDate.getTime();
+  currentObject["utc"] = currentDate.toUTCString();
+  return res.send(currentObject);
+>>>>>>> 92cc622a012fb0b777c40f646f55ec2e0a7921c6
 });
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {

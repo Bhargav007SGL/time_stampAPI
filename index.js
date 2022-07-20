@@ -20,6 +20,15 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
+
+app.get("/api", function (req, res) {
+  var currentObject = {};
+  var currentDate = new Date();
+  currentObject["unix"] = currentDate.getTime();
+  currentObject["utc"] = currentDate.toUTCString();
+  res.json(currentObject);
+});
+
 app.get("/api/:date", function (req, res) {
   var tempDate = req.params.date;
   var createObj = {};
@@ -28,28 +37,20 @@ app.get("/api/:date", function (req, res) {
     createObj["unix"] = UTCDate.getTime();
     createObj["utc"] = UTCDate.toUTCString();
     if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
-      res.send({ error: "Invalid Date" })
+     return res.json({ error: "Invalid Date" })
     }
-    res.send(createObj);
+   return res.json(createObj);
   }
-  createObj["unix"] = tempDate;
+  createObj["unix"] = parseInt(tempDate);
   var UTCDate = new Date(parseInt(tempDate));
   if (UTCDate == `Invalid Date` || tempDate.match(/[a-zA-Z]/)) {
-    res.send({ error: "Invalid Date" })
+   return res.json({ error: "Invalid Date" })
   }
   UTCDate = UTCDate.toUTCString();
   createObj["utc"] = UTCDate;
-  res.send(createObj);
-});
-
-app.get("/api", function (req, res) {
-  var currentObject = {};
-  var currentDate = new Date();
-  currentObject["unix"] = currentDate.getTime();
-  currentObject["utc"] = currentDate.toUTCString();
-  res.send(currentObject);
+ return res.json(createObj);
 });
 // listen for requests :)
-var listener = app.listen(3000, function () {
-  console.log('Your app is listening on port ' + 3000);
+var listener = app.listen(process.env.PORT || 3000, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
